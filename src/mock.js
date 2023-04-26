@@ -14,17 +14,20 @@ export const rows = [
 export const columns = [
   { 
     field: 'campaignName', 
-    headerName: 'Name', 
+    headerName: 'Name',
+    sortable: false, 
     width: 150 
   },
   {
     field: 'name',
     headerName: 'User name',
+    sortable: false,
     width: 150 
   },
   {
     field: 'startDate',
     headerName: 'Start Date',
+    sortable: false,
     type: 'Date',
     width: 110 
   },
@@ -32,18 +35,21 @@ export const columns = [
   {
     field: 'endDate',
     headerName: 'End Date',
+    sortable: false,
     type: 'Date',
     width: 110 
   },
   {
       field: 'flag',
       headerName: 'Active',
+      sortable: false,
       width: 150,
       editable: true,
   },
   {
       field: 'budget',
       headerName: 'Budget',
+      sortable: false,
       type: 'number',
       width: 150,
       editable: true,

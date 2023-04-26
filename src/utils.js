@@ -8,6 +8,7 @@ export const reformat = (data) => {
             name: dt.name, 
             startDate: dt.startDate, 
             endDate: dt.endDate, 
+            flag: 'Active',
             budget: `${Math.round(dt.Budget / 1000)}K USD`, 
             userId: dt.userId
     }

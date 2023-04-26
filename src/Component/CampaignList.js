@@ -115,6 +115,7 @@ export const CampaignList = () => {
             rows={records}
             hideFooterPagination={true}
             columns={columns}
+            disableColumnMenu 
             initialState={{
                 
             }}
