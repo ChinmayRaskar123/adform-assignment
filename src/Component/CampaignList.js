@@ -7,95 +7,71 @@ import dayjs from 'dayjs';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { reformat } from '../utils';
+import { compareDates, reformat } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {addCampaign} from '../features/campaignSlice'
 import { TextField } from '@mui/material';
 import './Campaign.scss'
+import { columns } from '../mock';
 
 export const CampaignList = () => {
     const [initialLoad, setInitialLoad] = useState(false)
     const [records, setRecords] = useState([])
     
     const [startDate, setStartDate] = useState(null);
+    const [maxStartDate, setMaxStartDate] = useState(null);
+    const [minEndDate, setMinEndDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-        const [searchCampaignByName, setSearchCampaignByName] = useState('');
+    const [searchCampaignByName, setSearchCampaignByName] = useState('');
 
     const campaignList = useSelector((state) => state.campaign.campaignList)
     const dispatch = useDispatch()
 
-    const columns = [
-        { 
-          field: 'campaignName', 
-          headerName: 'Name', 
-          width: 150 
-        },
-        {
-          field: 'name',
-          headerName: 'User name',
-          width: 150 
-        },
-        {
-          field: 'startDate',
-          headerName: 'Start Date',
-          type: 'Date',
-          width: 110 
-        },
-        
-        {
-          field: 'endDate',
-          headerName: 'End Date',
-          type: 'Date',
-          width: 110 
-        },
-        {
-            field: 'flag',
-            headerName: 'Active',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'budget',
-            headerName: 'Budget',
-            type: 'number',
-            width: 150,
-            editable: true,
-        },
-      ];
-      
-      const handleStartDateChange = (newValue) => {
+    const handleStartDateChange = (newValue) => {
+      const stDate = compareDates(dayjs(newValue).format('M/D/YYYY'), dayjs(endDate).format('M/D/YYYY'))
+      if (stDate === 'Invalid Date' ) {
+        setRecords(reformat(campaignList)) 
+       return false
+      } else {
         setStartDate(newValue)
-        console.log(dayjs(newValue).format('M/D/YYYY'));
-
+        const nextday = dayjs(newValue).add(1, 'day');
+        setMinEndDate(nextday)
         setRecords(records.filter(rc => {
-          if (rc.startDate === dayjs(newValue).format('M/D/YYYY').toString()) {
+          if (rc.startDate === stDate) {
             return rc
           }  
-          }))              
-      }
-
-      const handleEndDateChange = (newValue) => {
+        }))            
+      }      
+    }          
+  
+    const handleEndDateChange = (newValue) => {
+      const edDate = compareDates(dayjs(startDate).format('M/D/YYYY'), dayjs(newValue).format('M/D/YYYY'))
+      if (edDate === 'Invalid Date') {
+        setEndDate(null) 
+        setRecords(reformat(campaignList)) 
+      } else {
         setEndDate(newValue)
-        console.log(dayjs(newValue).format('M/D/YYYY'));
-
+        const yesterday = dayjs(newValue).add(-1, 'day');
+        setMaxStartDate(yesterday)
         setRecords(records.filter(rc => {
-          if (rc.endDate === dayjs(newValue).format('M/D/YYYY').toString()) {
+          if (rc.endDate === edDate) {
             return rc
           }  
-          })) 
+        })) 
       }
+    }
 
-      const handleSearchCampaignByName = () => {
-        if (searchCampaignByName === '') {
-          setRecords(reformat(campaignList))
-        } else {
-          setRecords(records.filter(rc => {
-            if (rc.name === searchCampaignByName) {
-              return rc
-            }  
-           }))      
-        }       
-      }
+    const handleSearchCampaignByName = () => {
+      if (searchCampaignByName === '') {
+        setRecords(reformat(campaignList))
+      } else {
+        setRecords(records.filter(rc => {
+          if (rc.name === searchCampaignByName) {
+            return rc
+          }  
+          }))      
+      }       
+    }
 
     useEffect(() => {
       const data = reformat(campaignList)
@@ -110,10 +86,12 @@ export const CampaignList = () => {
               <DatePicker
                 label="Start-Date"
                 value={startDate}
+                maxDate={maxStartDate}
                 onChange={(newValue) => handleStartDateChange(newValue)}
               />
               <DatePicker
                 label="End-Date"
+                minDate={minEndDate}
                 value={endDate}
                 onChange={(newValue) => handleEndDateChange(newValue)}
               />

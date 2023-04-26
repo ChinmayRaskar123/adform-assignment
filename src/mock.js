@@ -10,3 +10,42 @@ export const rows = [
   {id:9,name:"Zoomcast",startDate:"9/6/2021",endDate:"11/10/2023",Budget:301919, userId: 8},
   {id:10,name:"Realbridge",startDate:"3/5/2021",endDate:"10/2/2026",Budget:505602, userId: 5}
 ];
+
+export const columns = [
+  { 
+    field: 'campaignName', 
+    headerName: 'Name', 
+    width: 150 
+  },
+  {
+    field: 'name',
+    headerName: 'User name',
+    width: 150 
+  },
+  {
+    field: 'startDate',
+    headerName: 'Start Date',
+    type: 'Date',
+    width: 110 
+  },
+  
+  {
+    field: 'endDate',
+    headerName: 'End Date',
+    type: 'Date',
+    width: 110 
+  },
+  {
+      field: 'flag',
+      headerName: 'Active',
+      width: 150,
+      editable: true,
+  },
+  {
+      field: 'budget',
+      headerName: 'Budget',
+      type: 'number',
+      width: 150,
+      editable: true,
+  },
+];
