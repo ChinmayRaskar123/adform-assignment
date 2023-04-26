@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const reformat = (data) => {
     return data.map(dt => (
         {
@@ -12,7 +14,7 @@ export const reformat = (data) => {
     ))
 }
 
-export const compareDates = (d1, d2) => {
+export const validateDates = (d1, d2) => {
     let date1 = new Date(d1).getTime();
     let date2 = new Date(d2).getTime();
   
@@ -26,3 +28,20 @@ export const compareDates = (d1, d2) => {
         return ''
     }
   };
+
+ export const dateCompare = (d1, d2) => {
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+
+    if(date1 > date2){
+       return true
+    } else if(date1 < date2){
+        console.log(`${d2} is greater than ${d1}`)
+    } else{
+        console.log(`Both dates are equal`)
+    }
+}
+
+export const reformatDate = (date) => {
+    return dayjs(date).format('M/D/YYYY')
+}

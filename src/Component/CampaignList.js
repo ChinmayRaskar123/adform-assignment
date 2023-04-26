@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { compareDates, reformat } from '../utils';
+import { validateDates, reformat, dateCompare, reformatDate } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {addCampaign} from '../features/campaignSlice'
 import { TextField } from '@mui/material';
@@ -28,7 +28,7 @@ export const CampaignList = () => {
     const dispatch = useDispatch()
 
     const handleStartDateChange = (newValue) => {
-      const stDate = compareDates(dayjs(newValue).format('M/D/YYYY'), dayjs(endDate).format('M/D/YYYY'))
+      const stDate = validateDates(reformatDate(newValue), reformatDate(endDate))
       if (stDate === 'Invalid Date' ) {
         setRecords(reformat(campaignList)) 
        return false
@@ -37,7 +37,7 @@ export const CampaignList = () => {
         const nextday = dayjs(newValue).add(1, 'day');
         setMinEndDate(nextday)
         setRecords(records.filter(rc => {
-          if (rc.startDate === stDate) {
+          if (dateCompare(rc.startDate, reformatDate(newValue))) {
             return rc
           }  
         }))            
@@ -45,7 +45,7 @@ export const CampaignList = () => {
     }          
   
     const handleEndDateChange = (newValue) => {
-      const edDate = compareDates(dayjs(startDate).format('M/D/YYYY'), dayjs(newValue).format('M/D/YYYY'))
+      const edDate = validateDates(reformatDate(startDate), reformatDate(newValue))
       if (edDate === 'Invalid Date') {
         setEndDate(null) 
         setRecords(reformat(campaignList)) 
@@ -54,7 +54,7 @@ export const CampaignList = () => {
         const yesterday = dayjs(newValue).add(-1, 'day');
         setMaxStartDate(yesterday)
         setRecords(records.filter(rc => {
-          if (rc.endDate === edDate) {
+          if (dateCompare(reformatDate(newValue), rc.endDate)) {
             return rc
           }  
         })) 
