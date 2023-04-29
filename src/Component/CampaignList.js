@@ -7,12 +7,12 @@ import dayjs from 'dayjs';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { validateDates, reformat, dateCompare, reformatDate } from '../utils';
+import { validateDates, reformatCampaignData, dateCompare, reformatDate } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {addCampaign} from '../features/campaignSlice'
 import { TextField } from '@mui/material';
 import './Campaign.scss'
-import { columns } from '../mock';
+import { campaignColumns } from '../mock';
 
 export const CampaignList = () => {
     const [initialLoad, setInitialLoad] = useState(false)
@@ -30,7 +30,7 @@ export const CampaignList = () => {
     const handleStartDateChange = (newValue) => {
       const stDate = validateDates(reformatDate(newValue), reformatDate(endDate))
       if (stDate === 'Invalid Date' ) {
-        setRecords(reformat(campaignList)) 
+        setRecords(reformatCampaignData(campaignList)) 
        return false
       } else {
         setStartDate(newValue)
@@ -48,7 +48,7 @@ export const CampaignList = () => {
       const edDate = validateDates(reformatDate(startDate), reformatDate(newValue))
       if (edDate === 'Invalid Date') {
         setEndDate(null) 
-        setRecords(reformat(campaignList)) 
+        setRecords(reformatCampaignData(campaignList)) 
       } else {
         setEndDate(newValue)
         const yesterday = dayjs(newValue).add(-1, 'day');
@@ -63,7 +63,7 @@ export const CampaignList = () => {
 
     const handleSearchCampaignByName = () => {
       if (searchCampaignByName === '') {
-        setRecords(reformat(campaignList))
+        setRecords(reformatCampaignData(campaignList))
       } else {
         setRecords(records.filter(rc => {
           if (rc.name === searchCampaignByName) {
@@ -74,7 +74,7 @@ export const CampaignList = () => {
     }
 
     useEffect(() => {
-      const data = reformat(campaignList)
+      const data = reformatCampaignData(campaignList)
       setRecords(data)        
     }, [campaignList])
     
@@ -114,7 +114,7 @@ export const CampaignList = () => {
           <DataGrid
             rows={records}
             hideFooterPagination={true}
-            columns={columns}
+            columns={campaignColumns}
             disableColumnMenu 
             initialState={{
                 

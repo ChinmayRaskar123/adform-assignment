@@ -11,7 +11,7 @@ export const rows = [
   {id:10,name:"Realbridge",startDate:"3/5/2021",endDate:"10/2/2026",Budget:505602, userId: 5}
 ];
 
-export const columns = [
+export const campaignColumns = [
   { 
     field: 'campaignName', 
     headerName: 'Name',
@@ -31,7 +31,6 @@ export const columns = [
     type: 'Date',
     width: 110 
   },
-  
   {
     field: 'endDate',
     headerName: 'End Date',
@@ -54,4 +53,37 @@ export const columns = [
       width: 150,
       editable: true,
   },
+];
+
+export const usersColumns = [
+  { 
+    field: 'name', 
+    headerName: 'Name',
+    sortable: false, 
+    width: 150 
+  },
+  { 
+    field: 'username', 
+    headerName: 'UserName',
+    sortable: false, 
+    width: 150 
+  },
+  { 
+    field: 'email', 
+    headerName: 'Email',
+    sortable: false, 
+    width: 150 
+  },
+  { 
+    field: 'phone', 
+    headerName: 'Phone',
+    sortable: false, 
+    width: 150 
+  },
+  { 
+    field: 'address', 
+    headerName: 'Address',
+    sortable: false, 
+    width: 250 
+  }  
 ];

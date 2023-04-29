@@ -1,6 +1,19 @@
 import dayjs from 'dayjs';
 
-export const reformat = (data) => {
+export const reformatUsersData = (data) => {
+    return data.map(dt => (
+        {
+            id: dt.id, 
+            name: dt.name,
+            username: dt.username, 
+            email: dt.email, 
+            phone: dt.phone, 
+            address: `${dt?.address?.suite}, ${dt?.address?.street}, ${dt?.address?.city}`
+        }
+    ))
+}
+
+export const reformatCampaignData = (data) => {
     return data.map(dt => (
         {
             id: dt.id, 
