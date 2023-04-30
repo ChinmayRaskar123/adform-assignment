@@ -84,6 +84,6 @@ export const usersColumns = [
     field: 'address', 
     headerName: 'Address',
     sortable: false, 
-    width: 250 
+    width: 350 
   }  
 ];

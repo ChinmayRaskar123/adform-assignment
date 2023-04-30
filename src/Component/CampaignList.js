@@ -5,7 +5,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { validateDates, reformatCampaignData, dateCompare, reformatDate } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,8 +78,9 @@ export const CampaignList = () => {
     }, [campaignList])
     
     return (
-      <div>
-        <div className="d-flex justify-content-between p-4">
+      <div className="p-4">
+          <h1>List of Campaign</h1>
+        <div className="d-flex justify-content-between pb-2">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker', 'DatePicker']}>
               <DatePicker

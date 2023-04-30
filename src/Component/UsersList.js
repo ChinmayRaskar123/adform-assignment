@@ -5,6 +5,7 @@ import { usersColumns } from '../mock';
 import { fetchUsers } from '../features/userSlice';
 import { useEffect } from 'react';
 import { reformatUsersData } from '../utils';
+import { ErrorBoundary } from './ErrorBoundary';
 
 export const UsersList = () => {  
   const { loading, users, error } = useSelector((state) => state.users)
@@ -15,11 +16,12 @@ export const UsersList = () => {
   }, [dispatch])
 
   return (
-    <div className="d-flex justify-content-between p-4">
+    <div className="p-4">
+      <h1>List of Users</h1>
       {loading && <div>Loading...</div>}
-      {!loading && error ? <div>Error: {error}</div> : null}
+      {!loading && error ? <ErrorBoundary error={error}> </ErrorBoundary> : null}
       {!loading && users?.length ? (
-        <Box sx={{ height: 700, width: '100%' }}>
+        <Box sx={{ height: 700, width: '100%' }} >
           <DataGrid
             rows={records}
             hideFooterPagination={true}
